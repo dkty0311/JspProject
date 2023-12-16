@@ -1,0 +1,68 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.Date" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Welcome</title>
+</head>
+<body>
+
+<%
+    // 세션에서 사용자 정보 가져오기
+    String userName = (String)session.getAttribute("userName");
+
+    // 사용자 정보가 있는지 여부로 로그인 여부 판별
+    if (userName != null) {
+        // 사용자가 로그인한 상태
+        %>
+        <jsp:include page="loginMenu.jsp"/>
+        <%
+    } else {
+        // 사용자가 로그인하지 않은 상태
+        %>
+        <jsp:include page="menu.jsp"/>
+        <%
+        userName="고객";
+    }
+%>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">
+        
+            <%=userName %>님 <br>중고거래 쇼핑몰에 오신 것을 환영합니다!
+        </h1>
+    </div>
+</div>
+
+<main role="main">
+    <div class="container">
+        <div class="text-center">
+            <h3>Welcome to TradeMarket!</h3>
+            <%
+                Date day = new java.util.Date();
+                String am_pm;
+                int hour = day.getHours();
+                int minute = day.getMinutes();
+                int second = day.getSeconds();
+                if (hour / 12 == 0) {
+                    am_pm = "AM";
+                } else {
+                    am_pm = "PM";
+                    hour = hour - 12;
+                }
+
+                String CT = hour + " : " + minute + " : " + second + " " + am_pm;
+                out.println("현재 접속 시각: " + CT + "<br>");
+            %>
+        </div>
+    </div>
+</main>
+
+<%@ include file="footer.jsp" %>
+
+</body>
+</html>
